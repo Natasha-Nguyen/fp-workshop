@@ -7,24 +7,24 @@ import {IMPLEMENT_THIS} from './utils.js'
 // ***********
 
 /** Multiplies a number by 2. */
-const double = (x: number): number => IMPLEMENT_THIS
+const double = (x: number): number => x * 2
 // See if you can reimplement double without using any return statements!
 
 /** Adds 2 numbers. */
 const add =
 	(x: number) =>
 	(y: number): number =>
-		IMPLEMENT_THIS
+		x + y
 
 const numbers = [3, 6, 6, 2, 5, 8]
 
 /** `numbers` multiplied by 2. */
-const doubledNumbers: readonly number[] = IMPLEMENT_THIS
+const doubledNumbers: readonly number[] = numbers.map(x => double(x))
 /** `numbers` with 1 added to them. */
-const add1Numbers: readonly number[] = IMPLEMENT_THIS
+const add1Numbers: readonly number[] = numbers.map(x => add(x)(1))
 
 /** The even `numbers`. */
-const evenNumbers: readonly number[] = IMPLEMENT_THIS
+const evenNumbers: readonly number[] = numbers.filter(x => x % 2 === 0)
 
 // *******
 // reduce
@@ -33,10 +33,14 @@ const evenNumbers: readonly number[] = IMPLEMENT_THIS
 // Use reduce to implement sum and product:
 
 /** Calculates the sum of an array of numbers.  */
-const sum = (xs: readonly number[]): number => IMPLEMENT_THIS
+
+const sum = (xs: readonly number[]): number => xs.reduce((accumulator, currentValue) => accumulator + currentValue,
+0)
 
 /** Calculates the product of an array of numbers.  */
-const product = (xs: readonly number[]): number => IMPLEMENT_THIS
+const product = (xs: readonly number[]): number => xs.reduce((accumulator, currentValue) => accumulator * currentValue,
+1)
+
 
 // Challenge: Reimplement map and filter using reduce!
 // Try to do this without mutating any arrays. (don't worry about efficiency)
@@ -44,11 +48,10 @@ const product = (xs: readonly number[]): number => IMPLEMENT_THIS
 // Tip: you can add an element `x` to the end of an array `xs` with `[...xs, x]`
 // (this doesn't mutate `xs` but creates a new array)
 
-const myMap = <T, U>(xs: readonly T[], fn: (x: T) => U): readonly U[] =>
-	IMPLEMENT_THIS
+const myMap = <T, U>(xs: readonly T[], fn: (x: T) => U): readonly U[] => xs.reduce((acc: U[], x: T) => {acc.push(fn(x)); return acc;}, [])
 
 const myFilter = <T>(xs: readonly T[], fn: (x: T) => boolean): readonly T[] =>
-	IMPLEMENT_THIS
+	xs.reduce((acc: T[], x: T) => {if (fn(x)) acc.push(x); return acc;}, [])
 
 // ********
 // compose
