@@ -48,7 +48,8 @@ const product = (xs: readonly number[]): number => xs.reduce((accumulator, curre
 // Tip: you can add an element `x` to the end of an array `xs` with `[...xs, x]`
 // (this doesn't mutate `xs` but creates a new array)
 
-const myMap = <T, U>(xs: readonly T[], fn: (x: T) => U): readonly U[] => xs.reduce((acc: U[], x: T) => {acc.push(fn(x)); return acc;}, [])
+const myMap = <T, U>(xs: readonly T[], fn: (x: T) => U): readonly U[] => 
+	xs.reduce((acc: U[], x: T) => {acc.push(fn(x)); return acc;}, [])
 
 const myFilter = <T>(xs: readonly T[], fn: (x: T) => boolean): readonly T[] =>
 	xs.reduce((acc: T[], x: T) => {if (fn(x)) acc.push(x); return acc;}, [])
@@ -71,7 +72,7 @@ Implement the `compose` function below:
 const compose =
 	<A, B, C>(f: (b: B) => C, g: (a: A) => B): ((x: A) => C) =>
 	(x: A): C =>
-		IMPLEMENT_THIS
+		f(g(x))
 
 /*
 `compose` is an example of a higher-order function: it takes functions as
@@ -81,7 +82,7 @@ Let's try using it:
 */
 
 /** Adds an exclamation mark to the end of a string. */
-const exclaim = (string: string): string => IMPLEMENT_THIS
+const exclaim = (string: string): string => string + '!'	
 
 /** Converts something to a string. */
 // the `unknown` type means 'anything'
@@ -94,10 +95,9 @@ const toString: (x: unknown) => string = String
  * - `exclaimNumbers([1, 2, 3])` => `['1!', '2!', '3!']`
  */
 const exclaimNumbers = (xs: readonly number[]): readonly string[] =>
-	IMPLEMENT_THIS
-
+	myMap(xs, compose(exclaim, toString))
 /** Returns whether a number is even. */
-const isEven = (x: number): boolean => IMPLEMENT_THIS
+const isEven = (x: number): boolean => x % 2 === 0
 
 /**
  * Given an array of arrays of numbers, return the arrays that have an even sum.
@@ -106,7 +106,7 @@ const isEven = (x: number): boolean => IMPLEMENT_THIS
  */
 const evenSums = (
 	xs: readonly (readonly number[])[],
-): readonly (readonly number[])[] => IMPLEMENT_THIS
+): readonly (readonly number[])[] => xs.filter(arr => sum(arr) % 2 === 0)
 
 // Don't change anything below this line! (needed for the tests to work)
 export {
